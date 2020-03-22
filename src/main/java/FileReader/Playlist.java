@@ -1,6 +1,7 @@
 package FileReader;
 
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
+import uk.co.caprica.vlcj.media.Media;
 
 import java.io.File;
 import java.util.Collections;
@@ -21,7 +22,12 @@ public class Playlist {
         this.file = new File(arguments);
         this.playlist = new LinkedList<>();
         findAndAddMp3Files();
+        addMetaData();
         shufflePlaylist();
+
+    }
+
+    private void addMetaData() {
     }
 
     private void shufflePlaylist() {
