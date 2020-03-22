@@ -3,8 +3,9 @@ package FileReader;
 public class MP3File {
     String absoluteFilename;
 
+
     public MP3File(String absoluteFilename) {
-        this.absoluteFilename = absoluteFilename;
+        this.absoluteFilename = "\\" + absoluteFilename;
     }
 
     @Override
@@ -17,4 +18,6 @@ public class MP3File {
     public String getAbsoluteFilename() {
         return absoluteFilename;
     }
+
+
 }

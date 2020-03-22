@@ -1,24 +1,37 @@
 package FileReader;
 
+import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
+
 import java.io.File;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 
 /**
- * The Playlist is supposed to read the file
+ * The Playlist is supposed to read the file arguments and then create a playlist to manipulate it.
  */
 public class Playlist {
     private LinkedList<MP3File> playlist;
     private File file;
-
+    /**
+     * instantiates the file and Playlist
+     * @param arguments  is the argument which is a filedirectory.
+     */
     public Playlist(String arguments) {
         this.file = new File(arguments);
         this.playlist = new LinkedList<>();
-        System.out.println(file.toString());
-        System.out.println("Is a directory: " + file.isDirectory() + " and absolute: " + file.isAbsolute());
         findAndAddMp3Files();
+        shufflePlaylist();
     }
 
+    private void shufflePlaylist() {
+        Collections.shuffle(this.playlist);
+    }
+
+    /**
+     * Finds mp3 files in the given filedirectory and adds it into the playlist and
+     *
+     */
     private void findAndAddMp3Files() {
         try {
             for (String name : Objects.requireNonNull(file.list())) {
@@ -27,10 +40,7 @@ public class Playlist {
                 }
             }
             System.out.println("size of the mp3 LinkedList" + playlist.size());
-            for (MP3File track : playlist
-            ) {
-                System.out.println(track.toString());
-            }
+
         } catch (NullPointerException e) {
             try {
                 throw new Exception_100();
@@ -38,7 +48,13 @@ public class Playlist {
                 exception_100.printStackTrace();
             }
         }
-
     }
 
+    public LinkedList<MP3File> getPlaylist() {
+        return playlist;
+    }
+
+    public File getFile() {
+        return file;
+    }
 }
