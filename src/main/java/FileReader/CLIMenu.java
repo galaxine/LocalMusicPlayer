@@ -14,16 +14,12 @@ public class CLIMenu {
         startPlayMusic();
         startNextTracks();
     }
-
-    private void playNextTracks() {
-
-    }
-
+    
     private void startPlayMusic() {
         mediaPlayer.submit(new Runnable() {
             @Override
             public void run() {
-                mediaPlayer.media().play(playlist.getFile().getAbsolutePath().toString() + playlist.getPlaylist().getFirst().getAbsoluteFilename());
+                mediaPlayer.media().play(playlist.getPlaylist().getFirst().getAbsoluteFilename());
             }
         });
     }
@@ -37,7 +33,7 @@ public class CLIMenu {
                     @Override
                     public void run() {
                         datastructure();
-                        mediaPlayer.media().play(playlist.getFile().getAbsolutePath().toString() + playlist.getPlaylist().getFirst().getAbsoluteFilename());
+                        mediaPlayer.media().play(playlist.getPlaylist().getFirst().getAbsoluteFilename());
                     }
                 });
             }

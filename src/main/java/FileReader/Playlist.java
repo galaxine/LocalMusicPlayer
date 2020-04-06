@@ -22,13 +22,10 @@ public class Playlist {
         this.file = new File(arguments);
         this.playlist = new LinkedList<>();
         findAndAddMp3Files();
-        addMetaData();
         shufflePlaylist();
 
     }
 
-    private void addMetaData() {
-    }
 
     private void shufflePlaylist() {
         Collections.shuffle(this.playlist);
@@ -42,10 +39,10 @@ public class Playlist {
         try {
             for (String name : Objects.requireNonNull(file.list())) {
                 if (name.endsWith(".mp3")) {
-                    playlist.add(new MP3File(name));
+                    playlist.add(new MP3File(file.getAbsolutePath() + "\\" + name));
                 }
             }
-            System.out.println("size of the mp3 LinkedList" + playlist.size());
+
 
         } catch (NullPointerException e) {
             try {

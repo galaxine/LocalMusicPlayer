@@ -1,35 +1,53 @@
 package FileReader;
 
+import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
+import uk.co.caprica.vlcj.media.InfoApi;
+import uk.co.caprica.vlcj.media.Media;
+import uk.co.caprica.vlcj.media.Meta;
+import uk.co.caprica.vlcj.media.MetaData;
+import uk.co.caprica.vlcj.waiter.media.ParsedWaiter;
+
 public class MP3File {
     private String absoluteFilename;
     private String title;
     private String artist;
     private String album;
     private String genre;
-    private String duration;
-
+    private long duration;
     public MP3File(String absoluteFilename) {
-        this.absoluteFilename = "\\" + absoluteFilename;
+        this.absoluteFilename = absoluteFilename;
+        parseMetaDataToMp3File();
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private void parseMetaDataToMp3File() {
+        MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
+        final Media media = mediaPlayerFactory.media().newMedia(absoluteFilename);
+        final ParsedWaiter parsed = new ParsedWaiter(media) {
+            @Override
+            protected boolean onBefore(Media component) {
+                return media.parsing().parse();
+            }
+        };
 
-    public void setAlbum(String album) {
-        this.album = album;
-    }
+        try {
+            parsed.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
+        final MetaData metadata = media.meta().asMetaData();
+        final InfoApi api = media.info();
 
-    public void setDuration(String duration) {
-        this.duration = duration;
+        this.title = metadata.get(Meta.TITLE);
+        this.artist = metadata.get(Meta.ARTIST);
+        this.album = metadata.get(Meta.ALBUM);
+        this.genre = metadata.get(Meta.GENRE);
+
+        this.duration = api.duration();
+
+        media.release();
+        mediaPlayerFactory.release();
     }
 
     public String getAbsoluteFilename() {
