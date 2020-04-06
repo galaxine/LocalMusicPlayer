@@ -31,6 +31,13 @@ public class Playlist {
         Collections.shuffle(this.playlist);
     }
 
+    public void showPlaylist(){
+        for (MP3File track: playlist
+             ) {
+            System.out.println(track.toString());
+        }
+    }
+
     /**
      * Finds mp3 files in the given filedirectory and adds it into the playlist and
      *
