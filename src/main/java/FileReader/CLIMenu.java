@@ -11,10 +11,18 @@ public class CLIMenu {
 
     public CLIMenu(String arguments) {
         this.playlist = new Playlist(arguments);
+        printMetaData();
         startPlayMusic();
         startNextTracks();
     }
-    
+
+    private void printMetaData() {
+        for (MP3File track : playlist.getPlaylist()
+             ) {
+            System.out.println(track.toString());
+        }
+    }
+
     private void startPlayMusic() {
         mediaPlayer.submit(new Runnable() {
             @Override
