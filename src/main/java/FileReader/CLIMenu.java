@@ -6,16 +6,25 @@ import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
 import java.util.Scanner;
 
+/**
+ * The CLIMenu class that handles all the logic regarding the Commandline Menu usage.
+ */
 public class CLIMenu {
+    /**
+     * the mediaplayerfactory is needed to deploy a mediaplayer
+     */
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+    /**
+     * Mediaplayer is instantiated by creating a new mediaplayer through the mediaplayerfactory
+     */
     private MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
+    /**
+     * Playlist class that's handling the mp3files.
+     */
     private Playlist playlist;
-    /*
-        TODO: in this Userstory, we are creaitng a CLI menu with following features
-            1. if the word "song" is entered, every data about the current track is given
-            2. "playlist" will show the current order
-            3. if "exit" shall exit the program
-            4. a help prompt if none of the words are entered.
+    /**
+     * The constructor takes the Commandline arguments or the file directory name and transfers it into the
+     * Playlist object constructor as a parameter
      */
     public CLIMenu(String arguments) {
         this.playlist = new Playlist(arguments);
@@ -25,6 +34,13 @@ public class CLIMenu {
         menu();
     }
 
+    /**
+     * Is the menu for the Commandline that has following functions:
+     * plays the music automatically
+     * shows metadata if "song" is entered
+     * shows current playlist metadata when "playlist" is entered
+     * exits the software by stopping the music and releasing the mediaplayer and mediaplayerfactory.
+     */
     private void menu() {
         instructions();
         Scanner scanner = new Scanner(System.in);
@@ -49,11 +65,18 @@ public class CLIMenu {
 
     }
 
+    /**
+     * If the user has typed anything else that's not acceptable, the acceptable functions are
+     * displayed.
+     */
     private void help() {
         System.out.println("Please enter either \"song\", \"playlist\" or " +
                 "\"exit\" to control the menu");
     }
 
+    /**
+     * The instructions on how to use the CLI Menu
+     */
     private void instructions() {
         System.out.println("Welcome to the upcoming internet player.\n"
         + "Please choose from the following:\n" +
@@ -62,6 +85,9 @@ public class CLIMenu {
                 "enter \"exit\" in order to exit the program ");
     }
 
+    /**
+     * prints the metadata of the playlist's mp3file linkedlist
+     */
     private void printMetaData() {
         for (MP3File track : playlist.getPlaylist()
              ) {
@@ -69,6 +95,9 @@ public class CLIMenu {
         }
     }
 
+    /**
+     * plays the music by running a new Thread and submitting the first track in the playlist.
+     */
     private void startPlayMusic() {
         mediaPlayer.submit(new Runnable() {
             @Override
@@ -78,6 +107,10 @@ public class CLIMenu {
         });
     }
 
+    /**
+     * Waits for the currently playing mp3 track to end before the next track gets ontop of the list and is played.
+     * This is now repeating until you stop.
+     */
     private void startNextTracks(){
         mediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
