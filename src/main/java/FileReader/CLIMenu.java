@@ -25,6 +25,7 @@ public class CLIMenu {
     /**
      * The constructor takes the Commandline arguments or the file directory name and transfers it into the
      * Playlist object constructor as a parameter
+     * @param arguments is the given parameters to start
      */
     public CLIMenu(String arguments) {
         this.playlist = new Playlist(arguments);
@@ -44,24 +45,31 @@ public class CLIMenu {
     private void menu() {
         instructions();
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            String command = scanner.nextLine();
-            switch (command) {
-                case "exit":
+        try {
+            while (true) {
+                String command = scanner.nextLine();
+                switch (command) {
+                    case "exit":
                         mediaPlayer.controls().stop();
                         mediaPlayer.release();
                         mediaPlayerFactory.release();
                         break;
-                case "song":
-                    System.out.println(this.playlist.getPlaylist().getFirst().toString());
-                    break;
-                case "playlist":
-                    this.playlist.showPlaylist();
-                default:
-                    help();
+                    case "song":
+                        System.out.println(this.playlist.getPlaylist().getFirst().toString());
+                        break;
+                    case "playlist":
+                        this.playlist.showPlaylist();
+                    default:
+                        help();
+                }
+            }
+        } catch (NullPointerException e) {
+            try {
+                throw new Exception_100();
+            } catch (Exception_100 exception_100) {
+                exception_100.printStackTrace();
             }
         }
-
 
     }
 
