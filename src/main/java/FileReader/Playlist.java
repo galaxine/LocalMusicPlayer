@@ -1,8 +1,5 @@
 package FileReader;
 
-import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
-import uk.co.caprica.vlcj.media.Media;
-
 import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -29,24 +26,14 @@ public class Playlist {
         this.playlist = new LinkedList<>();
         findAndAddMp3Files();
         shufflePlaylist();
-
     }
+
 
     /**
      * shuffles the playlist by pseudorandom means
      */
     private void shufflePlaylist() {
         Collections.shuffle(this.playlist);
-    }
-
-    /**
-     * shows each Mp3 Tracks metadata in the playlist Linked list.
-     */
-    public void showPlaylist(){
-        for (MP3File track: playlist
-             ) {
-            System.out.println(track.toString());
-        }
     }
 
     /**
@@ -60,7 +47,13 @@ public class Playlist {
             for (String name : Objects.requireNonNull(file.list())) {
                 //add those files that end in ".mp3" into the playlist with it's absolute path as constructor parameter
                 if (name.endsWith(".mp3")) {
-                    playlist.add(new MP3File(file.getAbsolutePath() + "\\" + name));
+                    //assign the track
+                    MP3File track = new MP3File(file.getAbsolutePath() + "\\" + name);
+                   //if the track is not a Duplicate
+                    if(!isDuplicate(track)) {
+                        //add it into the playlist
+                       playlist.add(new MP3File(file.getAbsolutePath() + "\\" + name));
+                   }
                 }
             }
 
@@ -71,6 +64,26 @@ public class Playlist {
                 exception_100.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Checks if the current track is a duplicate inside the playlist, the metadata should be the same to be considered
+     * equal. Honestly, the title is enough. I am not sure yet how to see if it's equal, then seeing if they are equally
+     * long.
+     * @param track the current track that is a mp3 playlist candidate
+     * @return if false, then the file is not a duplicate and is added.
+     * If true, then it is a duplicate and the method returns pre-maturely
+     */
+    private boolean isDuplicate(MP3File track) {
+        for (MP3File file : playlist
+             ) {
+            if (track.getTitle().equals(file.getTitle())) {
+                if(track.getDuration() == file.getDuration()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -87,5 +100,12 @@ public class Playlist {
      */
     public File getFile() {
         return file;
+    }
+
+    public void showPlaylist() {
+        for (MP3File track :
+                playlist) {
+            track.toString();
+        }
     }
 }

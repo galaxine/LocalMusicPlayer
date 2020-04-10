@@ -7,6 +7,8 @@ import uk.co.caprica.vlcj.media.Meta;
 import uk.co.caprica.vlcj.media.MetaData;
 import uk.co.caprica.vlcj.waiter.media.ParsedWaiter;
 
+import java.util.Objects;
+
 /**
  * The class Mp3 File has to have not only the absolutefilename to interact with the files themselves, they
  * also have to contain a few metadata to make sure that there is some kind of information to derive what the
@@ -107,5 +109,25 @@ public class MP3File {
                 ", genre='" + genre + '\'' +
                 ", duration='" + duration + '\'' +
                 '}';
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public long getDuration() {
+        return duration;
     }
 }
