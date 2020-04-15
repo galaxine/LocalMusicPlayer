@@ -22,9 +22,11 @@ public class CLIMenu {
      * Playlist class that's handling the mp3files.
      */
     private Playlist playlist;
+
     /**
      * The constructor takes the Commandline arguments or the file directory name and transfers it into the
      * Playlist object constructor as a parameter
+     *
      * @param arguments is the given parameters to start
      */
     public CLIMenu(String arguments) {
@@ -53,6 +55,7 @@ public class CLIMenu {
                         mediaPlayer.controls().stop();
                         mediaPlayer.release();
                         mediaPlayerFactory.release();
+                        System.exit(0);
                         break;
                     case "song":
                         System.out.println(this.playlist.getPlaylist().getFirst().toString());
@@ -87,7 +90,7 @@ public class CLIMenu {
      */
     private void instructions() {
         System.out.println("Welcome to the upcoming internet player.\n"
-        + "Please choose from the following:\n" +
+                + "Please choose from the following:\n" +
                 "enter \"song\" to get more information about the title, album, duration etc.");
         System.out.println("enter \" playlist\" to get the current track order \n" +
                 "enter \"exit\" in order to exit the program ");
@@ -98,7 +101,7 @@ public class CLIMenu {
      */
     private void printMetaData() {
         for (MP3File track : playlist.getPlaylist()
-             ) {
+        ) {
             System.out.println(track.toString());
         }
     }
@@ -119,29 +122,18 @@ public class CLIMenu {
      * Waits for the currently playing mp3 track to end before the next track gets ontop of the list and is played.
      * This is now repeating until you stop.
      */
-    private void startNextTracks(){
+    private void startNextTracks() {
         mediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
             public void finished(MediaPlayer mediaPlayer) {
-
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
-                        datastructure();
+                        playlist.nextTrack();
                         mediaPlayer.media().play(playlist.getPlaylist().getFirst().getAbsoluteFilename());
                     }
                 });
             }
         });
     }
-
-    /**
-     * Adds to the last index the first index object
-     * then removes the first object index
-     */
-    private void datastructure () {
-        this.playlist.getPlaylist().addLast(this.playlist.getPlaylist().getFirst());
-        this.playlist.getPlaylist().removeFirst();
-    }
-
 }

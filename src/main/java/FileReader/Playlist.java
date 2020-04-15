@@ -105,7 +105,15 @@ public class Playlist {
     public void showPlaylist() {
         for (MP3File track :
                 playlist) {
-            track.toString();
+            System.out.println(track.toString());
         }
+    }
+
+    /**
+     * This doesn't need to be in CLIMenu. Just take it here and call it from here,
+     */
+    public void nextTrack(){
+        playlist.addLast(playlist.getFirst());
+        playlist.removeFirst();
     }
 }
