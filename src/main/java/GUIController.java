@@ -32,6 +32,8 @@ public class GUIController implements PropertyChangeListener {
             System.out.println("listener active");
             TextArea textArea = new TextArea(evt.getNewValue().toString());
             setTextArea(textArea);
+        }else {
+            System.out.println("Fuck");
         }
     }
 
