@@ -1,14 +1,11 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Model;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class MusicplayerGUI extends Application {
     @Override
@@ -21,7 +18,7 @@ public class MusicplayerGUI extends Application {
         }
 
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MusicPlayerGUI.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MusicplayerGUI.fxml"));
         Pane root = fxmlLoader.load();
         GUIController controller = fxmlLoader.getController();
         Model model = new Model(filedirectory);
