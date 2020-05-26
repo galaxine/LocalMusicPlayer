@@ -2,6 +2,7 @@ package model;
 
 import FileReader.MP3File;
 import FileReader.Playlist;
+import javafx.application.Platform;
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
@@ -35,11 +36,14 @@ public class Model {
         System.out.println(playlist.getPlaylist().getFirst().toString());
         menu();
     }
-    //TODO: the music runs now, but I am out into conflict with a reference issue: JNA: callback object has been garbage collected
-    //  along with: Gdk-WARNIN **: time: XSetErrorHandler() called with a GDK error trap pushed. Don't do that.
     private void menu(){
-        playTrack();
-       // playNextTrack();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                playTrack();
+                playNextTrack();
+            }
+        });
     }
 
     /**
