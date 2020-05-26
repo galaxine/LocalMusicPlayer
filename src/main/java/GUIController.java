@@ -25,11 +25,11 @@ public class GUIController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("musicListener");
-        if (!evt.getPropertyName().isEmpty()) {
+        if (evt.getPropertyName().equals("track")) {
             System.out.println(evt.toString());
-           // System.out.println("listener active");
-           // TextArea textArea = new TextArea(evt.getNewValue().toString());
-           // setTextArea(textArea);
+            System.out.println("listener active");
+            TextArea textArea = new TextArea(evt.getNewValue().toString());
+            setTextArea(textArea);
         }
     }
 

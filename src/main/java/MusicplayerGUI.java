@@ -20,13 +20,13 @@ public class MusicplayerGUI extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MusicplayerGUI.fxml"));
         Pane root = fxmlLoader.load();
         GUIController controller = fxmlLoader.getController();
-        Model model = new Model(filedirectory);
-        model.addPropertyChangeListener(controller);
 
         Scene scene = new Scene(root);
         primaryStage.setTitle("Localplayer");
         primaryStage.setScene(scene);
         primaryStage.show();
+        Model model = new Model(filedirectory);
+        model.addPropertyChangeListener(controller);
 
     }
 

@@ -56,10 +56,8 @@ public class Model {
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("inside playNextTrack");
                         playlist.nextTrack();
                         setNextTrack(playlist.getPlaylist().getFirst());
-                        System.out.println("after playNextTrack's setNextTrack");
                         mediaPlayer.media().play(playlist.getPlaylist().getFirst().getAbsoluteFilename());
                     }
                 });
