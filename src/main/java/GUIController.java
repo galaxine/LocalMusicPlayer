@@ -21,16 +21,15 @@ public class GUIController implements PropertyChangeListener {
     /**
      * Listens to the model class and at first should change the View (fxml) to show the current
      * @param evt for now, it should register the property track changing at {@link model.Model}'s setNexTrack
-     *            TODO: Fix this so the controller recognizes the change and overwrite's the old track's metadata
-     *              with the new one's .
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("musicListener");
-        if (evt.getPropertyName().equals("track")) {
-            System.out.println("listener active");
-            TextArea textArea = new TextArea(evt.getNewValue().toString());
-            setTextArea(textArea);
+        if (!evt.getPropertyName().isEmpty()) {
+            System.out.println(evt.toString());
+           // System.out.println("listener active");
+           // TextArea textArea = new TextArea(evt.getNewValue().toString());
+           // setTextArea(textArea);
         }
     }
 

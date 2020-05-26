@@ -17,7 +17,6 @@ public class MusicplayerGUI extends Application {
             filedirectory = System.getProperty("user.dir");
         }
 
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MusicplayerGUI.fxml"));
         Pane root = fxmlLoader.load();
         GUIController controller = fxmlLoader.getController();
@@ -28,6 +27,7 @@ public class MusicplayerGUI extends Application {
         primaryStage.setTitle("Localplayer");
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {

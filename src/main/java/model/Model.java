@@ -26,16 +26,20 @@ public class Model {
     private Playlist playlist;
     private PropertyChangeSupport support;
     private MP3File track = null;
-
     /**
-     *
      * @param filedirectory self explanatory, assigned to the playlist class constructor
      */
-    public Model(String filedirectory) {
+    public Model(final String filedirectory) {
         support = new PropertyChangeSupport(this);
         playlist = new Playlist(filedirectory);
+        System.out.println(playlist.getPlaylist().getFirst().toString());
+        menu();
+    }
+    //TODO: the music runs now, but I am out into conflict with a reference issue: JNA: callback object has been garbage collected
+    //  along with: Gdk-WARNIN **: time: XSetErrorHandler() called with a GDK error trap pushed. Don't do that.
+    private void menu(){
         playTrack();
-        playNextTrack();
+       // playNextTrack();
     }
 
     /**
@@ -44,10 +48,14 @@ public class Model {
     private void playNextTrack() {
         mediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
-            public void finished(MediaPlayer mediaPlayer) {
+            public void finished(final MediaPlayer mediaPlayer) {
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
+                        System.out.println("inside playNextTrack");
+                        playlist.nextTrack();
+                        setNextTrack(playlist.getPlaylist().getFirst());
+                        System.out.println("after playNextTrack's setNextTrack");
                         mediaPlayer.media().play(playlist.getPlaylist().getFirst().getAbsoluteFilename());
                     }
                 });
@@ -62,32 +70,24 @@ public class Model {
         mediaPlayer.submit(new Runnable() {
             @Override
             public void run() {
-                assignFirstPieceToTrack();
+                setNextTrack(playlist.getPlaylist().getFirst());
                 mediaPlayer.media().play(playlist.getPlaylist().getFirst().getAbsoluteFilename());
             }
         });
     }
 
     /**
-     *this method sets the next track and then fires the property change.
+     * this method sets the next track and then fires the property change.
      */
-    public void setNextTrack() {
-        if(!this.track.equals(null)) {
-            MP3File oldTrack = this.track;
-            MP3File newTrack = playlist.getPlaylist().getFirst();
-            this.track = newTrack;
-            support.firePropertyChange("track", oldTrack, newTrack);
-        } else {
-            MP3File oldTrack = this.track;
-            playlist.nextTrack();
-            MP3File newTrack = playlist.getPlaylist().getFirst();
-            this.track = newTrack;
-            support.firePropertyChange("track", oldTrack, newTrack);
-        }
+    public void setNextTrack(MP3File newTrack) {
+        MP3File oldTrack =  this.track;
+        this.track = newTrack;
+        this.support.firePropertyChange("track", oldTrack, newTrack);
     }
 
     /**
      * Propertychangelistener for observer suscription.
+     *
      * @param observer the current controller that should listen to this model
      */
     public void addPropertyChangeListener(PropertyChangeListener observer) {
@@ -96,16 +96,11 @@ public class Model {
 
     /**
      * removes the subscription of the observer.
+     *
      * @param observer the current controller is stopping listening to this model.
      */
     public void removePropertyChangeListener(PropertyChangeListener observer) {
         support.removePropertyChangeListener(observer);
     }
 
-    /**
-     *
-     */
-    public void assignFirstPieceToTrack() {
-        this.track = playlist.getPlaylist().getFirst();
-    }
 }
